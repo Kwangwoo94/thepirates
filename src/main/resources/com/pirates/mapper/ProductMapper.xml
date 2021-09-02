@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pirates.mapper.ProductMapper">
+	<insert id="insert">
+		INSERT INTO PRODUCT(NAME,DESCRIPTION,DELIVERY,OPTIONS) VALUES(?,?,?,?)
+	</insert>
+	<delete id="delete">
+		DELETE FROM PRODUCT WHERE ID = #{ID}
+	</delete>
+	<select id="selectall" resultType="com.pirates.entity.ProductInfoVO">
+		SELECT NAME,DESCRIPTION,(SELECT MIN(PRICE) FROM OPTIONS) FROM PRODUCT ORDER BY REGDATE DESC
+	</select>
+	<select id="selectone" resultType="com.pirates.entity.ProductInfoVO">
+		SELECT * FROM PRODUCT WHERE ID = #{ID}
+	</select>
+</mapper>
