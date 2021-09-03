@@ -25,9 +25,9 @@ public class ProductInfoVO {
 	
 	private String description;
 	
-	private List<Delivery> delivery;
+	private Delivery delivery;
 	
-	private List<Options> options;
+	private Options options;
 	
 	private Date regDate;
 	

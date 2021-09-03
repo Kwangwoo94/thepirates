@@ -14,7 +14,7 @@ public class Options {
 	@Id
 	private long id;
 	
-	private String name;
+	private String oname;
 	
 	private String price;
 	

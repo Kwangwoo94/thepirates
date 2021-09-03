@@ -2,15 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pirates.mapper.ProductMapper">
 	<insert id="insert">
-		INSERT INTO PRODUCT(NAME,DESCRIPTION,DELIVERY,OPTIONS) VALUES(?,?,?,?)
+		INSERT ALL
+		INTO PRODUCT(NAME,DESCRIPTION,REGDATE) VALUES(#{NAME},#{DESCRIPTION},SYSDATE)
+		INTO DELIVERY(TYPE,CLOSING) VALUES(#{TYPE},#{CLOSING})
+		INTO OPTIONS(NAME,PRICE,STOCK) VALUES(#{NAME},#{PRICE},#{STOCK})
 	</insert>
 	<delete id="delete">
 		DELETE FROM PRODUCT WHERE ID = #{ID}
 	</delete>
 	<select id="selectall" resultType="com.pirates.entity.ProductInfoVO">
-		SELECT NAME,DESCRIPTION,(SELECT MIN(PRICE) FROM OPTIONS) FROM PRODUCT ORDER BY REGDATE DESC
+		SELECT P.ID,P.NAME,DESCRIPTION,D.TYPE,D.CLOSING,O.NAME,O.PRICE,O.STOCK FROM PRODUCT P
+		INNER JOIN DELIVERY D ON P.ID = D.ID
+		INNER JOIN OPTIONS O ON P.ID = O.ID
 	</select>
 	<select id="selectone" resultType="com.pirates.entity.ProductInfoVO">
-		SELECT * FROM PRODUCT WHERE ID = #{ID}
+		SELECT * FROM (SELECT P.ID,P.NAME,DESCRIPTION,D.TYPE,D.CLOSING,O.NAME,O.PRICE,O.STOCK FROM PRODUCT P
+		INNER JOIN DELIVERY D ON P.ID = D.ID
+		INNER JOIN OPTIONS O ON P.ID = O.ID) WHERE ID = #{ID}
 	</select>
 </mapper>
